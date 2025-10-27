@@ -15,6 +15,13 @@ app.get("/", (req, res) => {
   res.send("Root Directory");
 });
 
+app.get("/ig/:username", (req, res) => {
+  let { username } = req.params;
+  res.render("instagram.ejs", { username });
+});
+
+
+
 app.get("/apple", (req, res) => {
   res.render("apple.ejs");
 });
