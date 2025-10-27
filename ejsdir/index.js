@@ -17,10 +17,22 @@ app.get("/", (req, res) => {
 
 app.get("/ig/:username", (req, res) => {
   let { username } = req.params;
-  res.render("instagram.ejs", { username });
+  const instaData = require("./data.json");
+  const data = instaData[username];
+  if (data) {
+    res.render("instagram.ejs", { data,username });
+  } 
+  else {
+    res.render("error.ejs");
+  }
 });
 
 
+
+app.get("/rollDice", (req, res) => {
+  const rollDice = Math.floor(Math.random() * 6) + 1;
+  res.render("rollDice.ejs", { rollDice });
+});
 
 app.get("/apple", (req, res) => {
   res.render("apple.ejs");
