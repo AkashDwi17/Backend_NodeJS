@@ -7,11 +7,14 @@ const path = require("path");
 // To generate random id
 const { v4: uuidv4 } = require("uuid");
 
+// For Method Override
+const methodOverride = require("method-override");
+
 // step-1
 // to configure ejs
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
+app.use(methodOverride("_method"));
 // . Serve Static Files (CSS, JS, Images, etc.)
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -47,7 +50,7 @@ app.get("/posts", (req, res) => {
   res.render("index.ejs", { posts });
 });
 
-// Add A New Post
+// Add A New Post new form
 app.get("/posts/new", (req, res) => {
   res.render("new.ejs");
 });
@@ -64,7 +67,7 @@ app.post("/posts", (req, res) => {
 // Post Find On The Basis Of ID
 app.get("/posts/:id", (req, res) => {
   let { id } = req.params;
-  let post = posts.find((p) => id === p.id);
+  let post = posts.find((p) => p.id === id);
   res.render("show.ejs", { post });
 });
 
@@ -73,9 +76,23 @@ app.get("/posts/:id", (req, res) => {
 app.patch("/posts/:id", (req, res) => {
   let { id } = req.params;
   let newContent = req.body.content;
-  let post = posts.find((p) => id === p.id);
+  let post = posts.find((p) => p.id === id);
   post.content = newContent;
-  res.send("Patch Request Working");
+  res.redirect("/posts");
+});
+
+// Send edit request
+app.get("/posts/:id/edit", (req, res) => {
+  let { id } = req.params;
+  let post = posts.find((p) => p.id === id);
+  res.render("edit.ejs", { post });
+});
+
+// Delete
+app.delete("/posts/:id", (req, res) => {
+  let { id } = req.params;
+  posts = posts.filter((p) => p.id !== id);
+  res.redirect("/posts");
 });
 
 app.listen(port, () => {
