@@ -21,16 +21,19 @@ app.use(express.json());
 
 let posts = [
   {
+    id: "1a",
     username: "C-DAC Bangalore",
     content: "I love coading",
   },
 
   {
+    id: "2b",
     username: "Akash Dwivedi",
     content: "Hardwork is important to achive suscess",
   },
 
   {
+    id: "3c",
     username: "Aditya Bhosale",
     content: "I got selected for mine 1st job",
   },
@@ -44,10 +47,18 @@ app.get("/posts/new", (req, res) => {
   res.render("new.ejs");
 });
 
+// Use redirect to redirect one page to another page using url
 app.post("/posts", (req, res) => {
-  let{username, content} = req.body;
-  posts.push({username, content});
+  let { username, content } = req.body;
+  posts.push({ username, content });
   res.redirect("/posts");
+});
+
+app.get("/posts/:id", () => {
+  let { id } = req.params;
+  let post = posts.find((p) => id === p.id);
+  console.log(post);
+  es.send("request is working");
 });
 
 app.listen(port, () => {
