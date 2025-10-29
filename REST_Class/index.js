@@ -4,6 +4,9 @@ const port = 8080;
 
 const path = require("path");
 
+// To generate random id
+const { v4: uuidv4 } = require("uuid");
+
 // step-1
 // to configure ejs
 app.set("view engine", "ejs");
@@ -21,44 +24,58 @@ app.use(express.json());
 
 let posts = [
   {
-    id: "1a",
+    id: uuidv4(),
     username: "C-DAC Bangalore",
     content: "I love coading",
   },
 
   {
-    id: "2b",
+    id: uuidv4(),
     username: "Akash Dwivedi",
     content: "Hardwork is important to achive suscess",
   },
 
   {
-    id: "3c",
+    id: uuidv4(),
     username: "Aditya Bhosale",
     content: "I got selected for mine 1st job",
   },
 ];
 
+// To Show all Posts
 app.get("/posts", (req, res) => {
   res.render("index.ejs", { posts });
 });
 
+// Add A New Post
 app.get("/posts/new", (req, res) => {
   res.render("new.ejs");
 });
 
+// After Addding new post it wil redirect to App Post Page
 // Use redirect to redirect one page to another page using url
 app.post("/posts", (req, res) => {
   let { username, content } = req.body;
-  posts.push({ username, content });
+  let id = uuidv4();
+  posts.push({ id, username, content });
   res.redirect("/posts");
 });
 
-app.get("/posts/:id", () => {
+// Post Find On The Basis Of ID
+app.get("/posts/:id", (req, res) => {
   let { id } = req.params;
   let post = posts.find((p) => id === p.id);
-  console.log(post);
-  es.send("request is working");
+  res.render("show.ejs", { post });
+});
+
+// Patch(to update specific things). (For updatation we can also use putt request) - Here content will get update only id and username will remain same
+
+app.patch("/posts/:id", (req, res) => {
+  let { id } = req.params;
+  let newContent = req.body.content;
+  let post = posts.find((p) => id === p.id);
+  post.content = newContent;
+  res.send("Patch Request Working");
 });
 
 app.listen(port, () => {
