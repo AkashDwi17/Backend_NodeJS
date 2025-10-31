@@ -10,8 +10,12 @@ const connection = mysql.createConnection({
   password: "Rewa@123",
 });
 
+let q = "insert into user (id, username, email, password) values(?,?,?,?)";
+
+let user = ["123", "123_newUser", "abc@gmail.com", "abc"];
+
 try {
-  connection.query("Show tables", (err, result) => {
+  connection.query(q, user, (err, result) => {
     if (err) throw err;
     console.log(result);
   });
@@ -46,4 +50,11 @@ let getRandomUser = () => {
 
 // a. create file schema.sql
 // b. select database
-// c. run command -> source schema.sql
+// c. run command ->
+// mysql -u root -p   (to connect with mysql server from terminal)
+// use / select database
+
+// source schema.sql (to run the schema.sql file from terminal)
+
+// How to store data in User table
+// use placeholder it is inside the mysql2 documentation
