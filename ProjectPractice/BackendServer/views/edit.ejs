@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Book</title>
+  </head>
+  <body>
+    <h1>Edit Book</h1>
+    <form action="/books/<%= book.id %>?_method=PUT" method="POST">
+      <label>Book Name:</label>
+      <input
+        type="text"
+        name="b_name"
+        value="<%= book.b_name %>"
+        required
+      /><br /><br />
+      <label>Author Name:</label>
+      <input
+        type="text"
+        name="a_name"
+        value="<%= book.a_name %>"
+        required
+      /><br /><br />
+      <label>Book Price:</label>
+      <input
+        type="number"
+        name="b_price"
+        value="<%= book.b_price %>"
+        required
+      /><br /><br />
+      <button type="submit">Update Book</button>
+    </form>
+    <br />
+    <a href="/books">Back to List</a>
+  </body>
+</html>
