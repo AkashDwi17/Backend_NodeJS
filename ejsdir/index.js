@@ -7,10 +7,6 @@ const port = 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
-app.listen(port, () => {
-  console.log(`Listining on port ${port}`);
-});
-
 app.get("/", (req, res) => {
   res.send("Root Directory");
 });
@@ -20,14 +16,11 @@ app.get("/ig/:username", (req, res) => {
   const instaData = require("./data.json");
   const data = instaData[username];
   if (data) {
-    res.render("instagram.ejs", { data,username });
-  } 
-  else {
+    res.render("instagram.ejs", { data, username });
+  } else {
     res.render("error.ejs");
   }
 });
-
-
 
 app.get("/rollDice", (req, res) => {
   const rollDice = Math.floor(Math.random() * 6) + 1;
@@ -50,6 +43,6 @@ app.get("/orange", (req, res) => {
   res.send("Orange Page");
 });
 
-app.use((req, res) => {
-  res.send("Not a valid directory");
+app.listen(port, () => {
+  console.log(`Listining on port ${port}`);
 });

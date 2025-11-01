@@ -10,12 +10,16 @@
     <h1>Quora Posts</h1>
 
     <% for (post of posts){ %>
+    <!-- To Print all the posts data -->
     <div class="post">
       <h3 class="user">@<%= post.username %></h3>
       <h4 class="content"><%= post.content %></h4>
+
       <br />
+      <!-- Add anchor tag : use a button type so after clicking here it will directly rendrer to the Post Find On The Basis Of ID url -->
       <a href="http://localhost:8080/posts/<%=post.id%>"> See in Detail</a>
 
+      <!-- Same as here we given a edit anchor tag to redirect the edit page  -->
       <a href="/posts/<%= post.id %>/edit">Edit</a>
 
       <form method="POST" action="/posts/<%= post.id %>?_method=DELETE">
@@ -23,7 +27,7 @@
       </form>
     </div>
     <%}%>
-
+    <!-- to create new post  -->
     <br /><br />
     <a href="http://localhost:8080/posts/new"> Create New Post</a>
   </body>

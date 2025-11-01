@@ -7,41 +7,47 @@ const path = require("path");
 // To generate random id
 const { v4: uuidv4 } = require("uuid");
 
-// For Method Override
+// For Method Override to send update and delete request
 const methodOverride = require("method-override");
 
-// step-1
-// to configure ejs
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(methodOverride("_method"));
-// . Serve Static Files (CSS, JS, Images, etc.)
-app.use(express.static(path.join(__dirname, "public")));
-
-// step-2
-// URL-encoded format (for post request)
+// URL-encoded format data ko samajhne ke lie (for post request)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// to configure ejs
+app.set("view engine", "ejs");
+// to use views folder
+app.set("views", path.join(__dirname, "views"));
+// to use public folder
+app.use(express.static(path.join(__dirname, "public")));
+app.use(methodOverride("_method"));
+// . Serve Static Files (CSS, JS, Images, etc.)
 
 // ______________________________________________________________________________
 
 let posts = [
   {
     id: uuidv4(),
-    username: "C-DAC Bangalore",
-    content: "I love coading",
+    username: "Jasprit Bumhrah",
+    content:
+      "I am the best boller in Indian cricket history. No one can replace me.",
   },
-
   {
     id: uuidv4(),
-    username: "Akash Dwivedi",
+    username: "Virat Kohli",
     content: "Hardwork is important to achive suscess",
   },
 
   {
     id: uuidv4(),
-    username: "Aditya Bhosale",
-    content: "I got selected for mine 1st job",
+    username: "Rohit Sharma",
+    content:
+      "I am one of the best opening player in Indian cricket history. Pull shot is my trademark shot",
+  },
+  {
+    id: uuidv4(),
+    username: "Prashidha Krishna",
+    content: "I am the best pace bowler in Indian Cricket",
   },
 ];
 
@@ -51,17 +57,23 @@ app.get("/posts", (req, res) => {
 });
 
 // Add A New Post new form
+// a. Serve the form -> GET -> /posts/new
+// b. Add the new post -> POST -> /posts
+// new.ejs -> create a new form
+
+// a
 app.get("/posts/new", (req, res) => {
   res.render("new.ejs");
 });
 
 // After Addding new post it wil redirect to App Post Page
 // Use redirect to redirect one page to another page using url
+// b
 app.post("/posts", (req, res) => {
   let { username, content } = req.body;
   let id = uuidv4();
   posts.push({ id, username, content });
-  res.redirect("/posts");
+  res.redirect("/posts"); // to connect different pages // by default it send get request
 });
 
 // Post Find On The Basis Of ID
